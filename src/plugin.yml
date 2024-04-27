@@ -1,0 +1,11 @@
+name: Cinematicas
+author: Joel
+version: 0.1
+api-version: 1.18
+main: principal.BukkitMain
+description: Plugin que te permite crear y cargar cinematicas.
+commands:
+    cinematicas:
+        description: Este comando permite crear y cargar cinematics
+        usage: /cinematicas crear/cargar nombre
+    
