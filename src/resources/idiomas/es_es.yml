@@ -1,0 +1,11 @@
+sender.noPermisos:&cNo tienes permisos para ejecutar este comando.
+comando.cinematicas.argumentoInvalido:&cArgumentos Invlidos, uso del comando /cinematicas nombre grabar/continuar/guardar/parar/ejecutar/borrar
+comando.noJugador:&cLo siento debes ser un jugador para ejecutar este comando.
+comando.cinematicas.ficheroYaExiste:&cLo siento esta cinematica ya existe borrala primero o use otro nombre.
+comando.cinematicas.grabando:&aSe inicio la grabacion de la cinematic %nombre%.
+comando.cinematicas.continuando:&aSe esta continuando la cinematica %nombre%.
+comando.cinematicas.guardado:&aCinematica %nombre% guardada con exito.
+comando.cinematicas.parado:&aSe paro de grabar la cinematica %nombre%.
+comando.cinematicas.ejecutando:&aSe mando a ejecutar la cinematica %nombre%
+comando.cinematicas.noExiste:&cLa cinematica &6%nombre% &cno existe
+comando.cinematicas.borrar:&aLa cinematica %nombre% se borro con exito.
