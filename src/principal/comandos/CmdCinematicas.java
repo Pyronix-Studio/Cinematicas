@@ -20,13 +20,13 @@ import principal.FicheroManager;
 public class CmdCinematicas implements TabExecutor, CommandExecutor {
 
 	private static HashMap<UUID, Cinematica> cinematicas = new HashMap<UUID, Cinematica>();
-	
+	private static final String RUTA_CINEMATICAS = BukkitMain.main.getDataFolder()+"/cinematicas/";
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if(!sender.isOp()) return null;
 		
 		
-		if(args.length == 1) return Arrays.asList(new File(BukkitMain.main.getDataFolder().toString()).list());
+		if(args.length == 1) return Arrays.asList(new File(BukkitMain.main.getDataFolder()+"/cinematicas/").list());
 		
 		if(args.length == 2) return Arrays.asList(new String[] {"grabar","continuar","guardar","parar","ejecutar","borrar"});
 		
@@ -44,7 +44,7 @@ public class CmdCinematicas implements TabExecutor, CommandExecutor {
 			if(!(sender instanceof Player)) { sender.sendMessage(BukkitMain.format(BukkitMain.main.getTraduccion("comando.noJugador")));		 return true;}
 			Player player = (Player)sender;
 			String nombre = args[0];
-			if(new FicheroManager(nombre+".scn").existe()) {sender.sendMessage(BukkitMain.format(BukkitMain.main.getTraduccion("comando.cinematicas.ficheroYaExiste")));	 return true;}
+			if(new FicheroManager(RUTA_CINEMATICAS+nombre).existe()) {sender.sendMessage(BukkitMain.format(BukkitMain.main.getTraduccion("comando.cinematicas.ficheroYaExiste")));	 return true;}
 			Cinematica cinematica = new Cinematica(nombre);
 			cinematicas.put(player.getUniqueId(), cinematica);
 			cinematica.grabar(player, false);
@@ -90,7 +90,7 @@ public class CmdCinematicas implements TabExecutor, CommandExecutor {
 
 		}else if(subComando.equals("borrar")) {
 			String nombreCinematica = args[0];
-			FicheroManager ficheroCinematica = new FicheroManager(nombreCinematica+".scn");
+			FicheroManager ficheroCinematica = new FicheroManager(RUTA_CINEMATICAS+nombreCinematica);
 			if(!ficheroCinematica.existe()) {sender.sendMessage(BukkitMain.format(BukkitMain.main.getTraduccion("comando.cinematicas.noExiste").replace("%nombre%", nombreCinematica)));	 return true;}
 			ficheroCinematica.borrar();
 			sender.sendMessage(BukkitMain.format(BukkitMain.main.getTraduccion("comando.cinematicas.borrar").replace("%nombre%", nombreCinematica)));

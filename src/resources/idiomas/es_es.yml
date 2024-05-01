@@ -9,3 +9,4 @@ comando.cinematicas.parado:&aSe paro de grabar la cinematica %nombre%.
 comando.cinematicas.ejecutando:&aSe mando a ejecutar la cinematica %nombre%
 comando.cinematicas.noExiste:&cLa cinematica &6%nombre% &cno existe
 comando.cinematicas.borrar:&aLa cinematica %nombre% se borro con exito.
+comando.cinematicas.jugadorNoEncontrado:&cDebes grabar una cinematica primero para guardarla.

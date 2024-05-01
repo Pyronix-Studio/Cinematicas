@@ -69,7 +69,7 @@ public class BukkitMain extends JavaPlugin implements Listener {
 	}
 	
 	public static String format(String texto) {
-		return ChatColor.translateAlternateColorCodes('&', texto);
+		return ChatColor.translateAlternateColorCodes('&', nombrePlugin+texto);
 	}
 
 }

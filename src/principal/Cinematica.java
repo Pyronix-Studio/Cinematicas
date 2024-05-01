@@ -24,7 +24,7 @@ public class Cinematica implements Listener {
 	private BukkitTask taskGrabar;
 	public Cinematica(String nombre) {
 		Bukkit.getPluginManager().registerEvents(this, BukkitMain.main);
-		this.fichero = new FicheroManager(BukkitMain.main.getDataFolder()+"/"+nombre);
+		this.fichero = new FicheroManager(BukkitMain.main.getDataFolder()+"/cinematicas/"+nombre);
 		this.nombre = nombre;
 	}
 	
@@ -87,34 +87,37 @@ public class Cinematica implements Listener {
 		
 	}
 	
-	public void ejecutar(List<UUID> jugadores, CinematicaTermina funcionTerminar) {
-		new BukkitRunnable() {
-			int indiceEjecucion = 0;
-			@Override
-			public void run() {
-				
-				if(indiceEjecucion >= cacheCinematica.size()) {
-					if(funcionTerminar != null)
-						funcionTerminar.run();
-					cacheCinematica.clear();
-					cancel();
-				}
-				if(!isCancelled())
-					for(UUID uuid : jugadores) {
-						Player player = Bukkit.getPlayer(uuid);
-						if(player != null) {
-							if(player.isOnline()) {
-								player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 2, false, false, false));
-								player.teleport(cacheCinematica.get(indiceEjecucion));
+	public boolean ejecutar(List<UUID> jugadores, CinematicaTermina funcionTerminar) {
+		if(cacheCinematica.size() > 0) {
+			new BukkitRunnable() {
+				int indiceEjecucion = 0;
+				@Override
+				public void run() {
+					
+					if(indiceEjecucion >= cacheCinematica.size()) {
+						if(funcionTerminar != null)
+							funcionTerminar.run();
+						cacheCinematica.clear();
+						cancel();
+					}
+					if(!isCancelled())
+						for(UUID uuid : jugadores) {
+							Player player = Bukkit.getPlayer(uuid);
+							if(player != null) {
+								if(player.isOnline()) {
+									player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 2, false, false, false));
+									player.teleport(cacheCinematica.get(indiceEjecucion));
+								}
 							}
 						}
-					}
+						
+					indiceEjecucion++;
 					
-				indiceEjecucion++;
-				
-			}
-		}.runTaskTimer(BukkitMain.main, 0, 1L);
-		
+				}
+			}.runTaskTimer(BukkitMain.main, 0, 1L);
+			return true;
+		}
+		return false;
 	}
 	
 	public String getNombre() {
