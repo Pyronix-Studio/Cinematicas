@@ -1,6 +1,7 @@
 package principal.comandos;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -85,7 +86,7 @@ public class CmdCinematicas implements TabExecutor, CommandExecutor {
 		}else if(subComando.equals("ejecutar")) {
 			Cinematica cinematica = new Cinematica(args[0]);
 			cinematica.cargar();
-			cinematica.ejecutar(Bukkit.getOnlinePlayers().stream().map((pl) -> pl.getUniqueId()).toList(), null);
+			cinematica.ejecutar(new ArrayList<Player>(Bukkit.getOnlinePlayers()), null);
 			sender.sendMessage(BukkitMain.format(BukkitMain.main.getTraduccion("comando.cinematicas.ejecutando").replace("%nombre%", cinematica.getNombre())));
 
 		}else if(subComando.equals("borrar")) {

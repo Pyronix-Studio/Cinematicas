@@ -2,13 +2,15 @@ package principal;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -87,8 +89,12 @@ public class Cinematica implements Listener {
 		
 	}
 	
-	public boolean ejecutar(List<UUID> jugadores, CinematicaTermina funcionTerminar) {
+	public boolean ejecutar(List<Player> jugadores, CinematicaTermina funcionTerminar) {
 		if(cacheCinematica.size() > 0) {
+			jugadores.forEach((pla) -> {
+				pla.getInventory().setArmorContents(new ItemStack[]{null,null,null,new ItemStack(Material.CARVED_PUMPKIN)});
+				pla.setGameMode(GameMode.SPECTATOR);
+				});
 			new BukkitRunnable() {
 				int indiceEjecucion = 0;
 				@Override
@@ -101,8 +107,7 @@ public class Cinematica implements Listener {
 						cancel();
 					}
 					if(!isCancelled())
-						for(UUID uuid : jugadores) {
-							Player player = Bukkit.getPlayer(uuid);
+						for(Player player : jugadores) {
 							if(player != null) {
 								if(player.isOnline()) {
 									player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 2, false, false, false));
