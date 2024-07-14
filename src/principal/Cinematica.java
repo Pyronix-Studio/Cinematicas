@@ -93,16 +93,23 @@ public class Cinematica implements Listener {
 		if(cacheCinematica.size() > 0) {
 			jugadores.forEach((pla) -> {
 				pla.getInventory().setArmorContents(new ItemStack[]{null,null,null,new ItemStack(Material.CARVED_PUMPKIN)});
-				pla.setGameMode(GameMode.SPECTATOR);
-				});
+				pla.setGameMode(GameMode.ADVENTURE);
+				pla.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 2, false, false, false));
+			});
 			new BukkitRunnable() {
 				int indiceEjecucion = 0;
 				@Override
 				public void run() {
 					
 					if(indiceEjecucion >= cacheCinematica.size()) {
-						if(funcionTerminar != null)
+						if(funcionTerminar != null) {
+							jugadores.forEach((pla) -> {
+								pla.getInventory().setArmorContents(new ItemStack[]{null,null,null,null});
+								pla.removePotionEffect(PotionEffectType.INVISIBILITY);
+								
+								});
 							funcionTerminar.run();
+						}
 						cacheCinematica.clear();
 						cancel();
 					}
@@ -110,8 +117,8 @@ public class Cinematica implements Listener {
 						for(Player player : jugadores) {
 							if(player != null) {
 								if(player.isOnline()) {
-									player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 40, 2, false, false, false));
 									player.teleport(cacheCinematica.get(indiceEjecucion));
+									
 								}
 							}
 						}
