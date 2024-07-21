@@ -86,7 +86,7 @@ public class CmdCinematicas implements TabExecutor, CommandExecutor {
 		}else if(subComando.equals("ejecutar")) {
 			Cinematica cinematica = new Cinematica(args[0]);
 			cinematica.cargar();
-			cinematica.ejecutar(new ArrayList<Player>(Bukkit.getOnlinePlayers()), null);
+			cinematica.ejecutar(new ArrayList<Player>(Bukkit.getOnlinePlayers()), ()->{});
 			sender.sendMessage(BukkitMain.format(BukkitMain.main.getTraduccion("comando.cinematicas.ejecutando").replace("%nombre%", cinematica.getNombre())));
 
 		}else if(subComando.equals("borrar")) {
