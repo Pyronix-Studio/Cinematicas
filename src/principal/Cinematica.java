@@ -9,7 +9,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -24,14 +26,17 @@ public class Cinematica implements Listener {
 	private ArrayList<Location> cacheCinematica = new ArrayList<Location>();
 	private String nombre;
 	private BukkitTask taskGrabar;
+	private static ArrayList<Player> jugadoresEnCinematica;
 	public Cinematica(String nombre) {
-		Bukkit.getPluginManager().registerEvents(this, BukkitMain.main);
 		this.fichero = new FicheroManager(BukkitMain.main.getDataFolder()+"/cinematicas/"+nombre);
 		this.nombre = nombre;
+		if(jugadoresEnCinematica == null) {
+			Cinematica.jugadoresEnCinematica = new ArrayList<Player>();
+			Bukkit.getPluginManager().registerEvents(this, BukkitMain.main);
+		}
+		
 	}
-	
 
-	
 	public void grabar(Player player, boolean continuar) {
 		if(!continuar)
 			cacheCinematica.clear();
@@ -88,9 +93,19 @@ public class Cinematica implements Listener {
 		});
 		
 	}
+	@EventHandler
+	private static void onPlayerDamageEvent(EntityDamageEvent event) {
+		if(event.getEntity() instanceof Player) {
+			Player player = (Player)event.getEntity();
+			if(Cinematica.jugadoresEnCinematica.contains(player)) {
+				event.setCancelled(true);
+			}
+		}
+	}
 	
 	public boolean ejecutar(List<Player> jugadores, CinematicaTermina funcionTerminar) {
 		if(cacheCinematica.size() > 0) {
+			Cinematica.jugadoresEnCinematica.addAll(jugadores);
 			jugadores.forEach((pla) -> {
 				pla.getInventory().setArmorContents(new ItemStack[]{null,null,null,new ItemStack(Material.CARVED_PUMPKIN)});
 				pla.setGameMode(GameMode.ADVENTURE);
@@ -108,6 +123,7 @@ public class Cinematica implements Listener {
 								pla.removePotionEffect(PotionEffectType.INVISIBILITY);
 								
 								});
+							Cinematica.jugadoresEnCinematica.removeAll(jugadores);
 							funcionTerminar.run();
 						}
 						cacheCinematica.clear();
