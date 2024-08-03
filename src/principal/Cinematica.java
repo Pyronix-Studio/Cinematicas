@@ -110,6 +110,7 @@ public class Cinematica implements Listener {
 				pla.getInventory().setArmorContents(new ItemStack[]{null,null,null,new ItemStack(Material.CARVED_PUMPKIN)});
 				pla.setGameMode(GameMode.ADVENTURE);
 				pla.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 2, false, false, false));
+				pla.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, Integer.MAX_VALUE, 255, false, false, false));
 			});
 			new BukkitRunnable() {
 				int indiceEjecucion = 0;
@@ -121,7 +122,7 @@ public class Cinematica implements Listener {
 							jugadores.forEach((pla) -> {
 								pla.getInventory().setArmorContents(new ItemStack[]{null,null,null,null});
 								pla.removePotionEffect(PotionEffectType.INVISIBILITY);
-								
+								pla.removePotionEffect(PotionEffectType.LEVITATION);
 								});
 							Cinematica.jugadoresEnCinematica.removeAll(jugadores);
 							funcionTerminar.run();
