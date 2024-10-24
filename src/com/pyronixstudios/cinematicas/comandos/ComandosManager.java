@@ -1,12 +1,12 @@
-package principal.comandos;
+package com.pyronixstudios.cinematicas.comandos;
 
-import principal.BukkitMain;
+import com.pyronixstudios.cinematicas.CinematicasMain;
 
 public class ComandosManager {
 
-	public BukkitMain plugin;
+	public CinematicasMain plugin;
 
-	public ComandosManager(BukkitMain mainPlugin) {
+	public ComandosManager(CinematicasMain mainPlugin) {
 
 		this.plugin = mainPlugin;
 		registrar();

@@ -1,4 +1,4 @@
-package principal;
+package com.pyronixstudios.cinematicas;
 @FunctionalInterface
 public interface CinematicaTermina {
 

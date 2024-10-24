@@ -1,4 +1,4 @@
-package principal;
+package com.pyronixstudios.cinematicas;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +28,11 @@ public class Cinematica implements Listener {
 	private BukkitTask taskGrabar;
 	private static ArrayList<Player> jugadoresEnCinematica;
 	public Cinematica(String nombre) {
-		this.fichero = new FicheroManager(BukkitMain.main.getDataFolder()+"/cinematicas/"+nombre);
+		this.fichero = new FicheroManager(CinematicasMain.main.getDataFolder()+"/cinematicas/"+nombre);
 		this.nombre = nombre;
 		if(jugadoresEnCinematica == null) {
 			Cinematica.jugadoresEnCinematica = new ArrayList<Player>();
-			Bukkit.getPluginManager().registerEvents(this, BukkitMain.main);
+			Bukkit.getPluginManager().registerEvents(this, CinematicasMain.main);
 		}
 		
 	}
@@ -48,7 +48,7 @@ public class Cinematica implements Listener {
 					cacheCinematica.add(player.getLocation().clone());
 				
 			}
-		}.runTaskTimer(BukkitMain.main, 0, 1L);
+		}.runTaskTimer(CinematicasMain.main, 0, 1L);
 	}
 	
 	public void pararGrabar() {
@@ -143,7 +143,7 @@ public class Cinematica implements Listener {
 					indiceEjecucion++;
 					
 				}
-			}.runTaskTimer(BukkitMain.main, 0, 1L);
+			}.runTaskTimer(CinematicasMain.main, 0, 1L);
 			return true;
 		}
 		return false;

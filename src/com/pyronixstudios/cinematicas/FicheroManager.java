@@ -1,4 +1,4 @@
-package principal;
+package com.pyronixstudios.cinematicas;
 
 import java.io.BufferedWriter;
 import java.io.File;

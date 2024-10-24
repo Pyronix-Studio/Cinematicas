@@ -1,4 +1,4 @@
-package principal;
+package com.pyronixstudios.cinematicas;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -9,13 +9,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import principal.comandos.ComandosManager;
+import com.pyronixstudios.cinematicas.comandos.ComandosManager;
 
-public class BukkitMain extends JavaPlugin implements Listener {
+public class CinematicasMain extends JavaPlugin implements Listener {
 
 	public FileConfiguration config;
 	
-	public static BukkitMain main;
+	public static CinematicasMain main;
 	public static String nombrePlugin = "&6[&7Cinematicas&6] ";
 	private IdiomaManager idioma;
 	@Override
@@ -50,7 +50,7 @@ public class BukkitMain extends JavaPlugin implements Listener {
 	public void copiarFicheros(String ruta ,String rutaACopiar) {
 		FicheroManager fichero = new FicheroManager(rutaACopiar);
 		if(!fichero.existe())
-			try(Scanner in = new Scanner(BukkitMain.class.getClassLoader().getResourceAsStream("resources"+ruta))) {
+			try(Scanner in = new Scanner(CinematicasMain.class.getClassLoader().getResourceAsStream("resources"+ruta))) {
 			
 				ArrayList<String> contenido = new ArrayList<String>();
 				while(in.hasNextLine())

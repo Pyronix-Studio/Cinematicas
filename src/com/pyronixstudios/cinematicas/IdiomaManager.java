@@ -1,4 +1,4 @@
-package principal;
+package com.pyronixstudios.cinematicas;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ public class IdiomaManager {
 	private final String CARACTER_SPLIT = ":";
 	public IdiomaManager(String ruta) {
 		this.RUTA = ruta;
-		this.IDIOMA = BukkitMain.main.config.getString("idioma");
+		this.IDIOMA = CinematicasMain.main.config.getString("idioma");
 		leerIdioma();
 	}
 	
@@ -29,7 +29,7 @@ public class IdiomaManager {
 				String traduccion = lineaSplit[1];
 				diccionarioTraducciones.put(key.toLowerCase(), traduccion);
 			}
-		}else BukkitMain.main.getLogger().info("Idioma " + IDIOMA + " no valido.");
+		}else CinematicasMain.main.getLogger().info("Idioma " + IDIOMA + " no valido.");
 		
 	}
 	
