@@ -118,6 +118,7 @@ public class Cinematica implements Listener {
 				public void run() {
 					
 					if(indiceEjecucion >= cacheCinematica.size()) {
+						jugadores.forEach((pla) -> pla.setVelocity(new Vector(0, 0, 0)));
 						if(funcionTerminar != null) {
 							jugadores.forEach((pla) -> {
 								pla.getInventory().setArmorContents(new ItemStack[]{null,null,null,null});
