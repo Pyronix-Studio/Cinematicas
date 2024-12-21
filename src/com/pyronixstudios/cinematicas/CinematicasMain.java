@@ -1,5 +1,6 @@
 package com.pyronixstudios.cinematicas;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -35,6 +36,9 @@ public class CinematicasMain extends JavaPlugin implements Listener {
 		
 		if(idioma == null)
 			idioma = new IdiomaManager(getDataFolder()+"/idiomas/");
+		File carpeta = new File(CinematicasMain.main.getDataFolder()+"/cinematicas/");
+		if(!carpeta.exists())
+			carpeta.mkdir();
 		
 	}
 	

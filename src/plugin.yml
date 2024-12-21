@@ -1,6 +1,6 @@
 name: Cinematicas
 author: Joel
-version: 0.4
+version: 0.5
 api-version: 1.18
 main: com.pyronixstudios.cinematicas.CinematicasMain
 description: Plugin que te permite crear y cargar cinematicas.
