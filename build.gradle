@@ -4,6 +4,10 @@ plugins {
     id 'maven-publish'
 }
 
+
+group = "es.pyronixstudio"
+version = project.version
+
 repositories {
     mavenCentral()
      maven {
