@@ -1,0 +1,12 @@
+name: ${name}
+author: ${author}
+version: ${version}
+api-version: ${apiversion}
+main: ${main}
+softdepend: ${softdepend}
+description: ${description}
+commands:
+    cinematicas:
+        description: Este comando permite crear y cargar cinematics
+        usage: /cinematicas crear/cargar nombre
+    

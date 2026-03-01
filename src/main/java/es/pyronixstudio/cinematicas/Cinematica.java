@@ -1,8 +1,6 @@
-package com.pyronixstudios.cinematicas;
+package es.pyronixstudio.cinematicas;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import es.pyronixstudio.util.ficheros.FicheroBase;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -19,19 +17,25 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cinematica implements Listener {
 
-	private FicheroManager fichero;
+	private final FicheroBase fichero;
 	private final String CARACTER_SPLIT = "&";
-	private ArrayList<Location> cacheCinematica = new ArrayList<Location>();
-	private String nombre;
+	private final List<Location> cacheCinematica = new ArrayList<>();
+	private final String nombre;
 	private BukkitTask taskGrabar;
-	private static ArrayList<Player> jugadoresEnCinematica;
+	private static List<Player> jugadoresEnCinematica;
+
 	public Cinematica(String nombre) {
-		this.fichero = new FicheroManager(CinematicasMain.main.getDataFolder()+"/cinematicas/"+nombre);
 		this.nombre = nombre;
+		this.fichero = FicheroBase.of(Path.of(CinematicasMain.main.getDataFolder().toURI()).resolve("cinematicas").resolve(nombre));
+
 		if(jugadoresEnCinematica == null) {
-			Cinematica.jugadoresEnCinematica = new ArrayList<Player>();
+			Cinematica.jugadoresEnCinematica = new ArrayList<>();
 			Bukkit.getPluginManager().registerEvents(this, CinematicasMain.main);
 		}
 		
@@ -57,7 +61,7 @@ public class Cinematica implements Listener {
 	
 	public void guardar() {
 		//world,x,y,z,pitch,yaw,dx,dy,dz
-		ArrayList<String> lineas = new ArrayList<String>();
+		List<String> lineas = new ArrayList<>();
 		for(Location location : cacheCinematica) {
 			
 			String parsed = location.getWorld().getName()+CARACTER_SPLIT+location.getX()+CARACTER_SPLIT+location.getY()+CARACTER_SPLIT+location.getZ()+CARACTER_SPLIT
@@ -66,14 +70,14 @@ public class Cinematica implements Listener {
 			lineas.add(parsed);
 		}
 		
-		fichero.escribir(lineas, false);
+		fichero.escribirLineas(lineas);
 	}
 
 	
 	public void cargar() {
 		//world,x,y,z,pitch,yaw,dx,dy,dz
 		cacheCinematica.clear();
-		ArrayList<String> ficheroSinParsear = fichero.leerTodo();
+		List<String> ficheroSinParsear = fichero.getAllLines();
 		ficheroSinParsear.forEach((localizacion) -> {
 			
 			String[] localizacionSplit = localizacion.split(CARACTER_SPLIT);
@@ -95,16 +99,15 @@ public class Cinematica implements Listener {
 	}
 	@EventHandler
 	private static void onPlayerDamageEvent(EntityDamageEvent event) {
-		if(event.getEntity() instanceof Player) {
-			Player player = (Player)event.getEntity();
-			if(Cinematica.jugadoresEnCinematica.contains(player)) {
+		if(event.getEntity() instanceof Player player) {
+            if(Cinematica.jugadoresEnCinematica.contains(player)) {
 				event.setCancelled(true);
 			}
 		}
 	}
 	
 	public boolean ejecutar(List<Player> jugadores, CinematicaTermina funcionTerminar) {
-		if(cacheCinematica.size() > 0) {
+		if(!cacheCinematica.isEmpty()) {
 			Cinematica.jugadoresEnCinematica.addAll(jugadores);
 			jugadores.forEach((pla) -> {
 				pla.getInventory().setArmorContents(new ItemStack[]{null,null,null,new ItemStack(Material.CARVED_PUMPKIN)});

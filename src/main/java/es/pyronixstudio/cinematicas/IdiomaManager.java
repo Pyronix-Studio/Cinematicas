@@ -1,15 +1,18 @@
-package com.pyronixstudios.cinematicas;
+package es.pyronixstudio.cinematicas;
 
-import java.util.ArrayList;
+import es.pyronixstudio.util.ficheros.FicheroBase;
+
+import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 
 public class IdiomaManager {
 
 	private final String IDIOMA;
-	private HashMap<String, String> diccionarioTraducciones = new HashMap<String, String>();
+	private final HashMap<String, String> diccionarioTraducciones = new HashMap<>();
 	private final String RUTA;
-	private final String CARACTER_SPLIT = ":";
-	public IdiomaManager(String ruta) {
+
+    public IdiomaManager(String ruta) {
 		this.RUTA = ruta;
 		this.IDIOMA = CinematicasMain.main.config.getString("idioma");
 		leerIdioma();
@@ -17,14 +20,15 @@ public class IdiomaManager {
 	
 	
 	private void leerIdioma() {
-		FicheroManager idioma = new FicheroManager(RUTA+IDIOMA+".yml");
+		FicheroBase idioma = FicheroBase.of(Path.of(RUTA,IDIOMA+".yml"));
 		if(idioma.existe()) {
 			
-			ArrayList<String> lineas = idioma.leerTodo();
+			List<String> lineas = idioma.getAllLines();
 			for(String linea : lineas) {
-				if(linea.startsWith("#") || linea.isEmpty() || linea.isBlank())
+				if(linea.startsWith("#") || linea.isBlank())
 					continue; //Codigo que permite que haya comentarios en el fichero.
-				String[] lineaSplit = linea.split(CARACTER_SPLIT);
+                String CARACTER_SPLIT = ":";
+                String[] lineaSplit = linea.split(CARACTER_SPLIT);
 				String key = lineaSplit[0];
 				String traduccion = lineaSplit[1];
 				diccionarioTraducciones.put(key.toLowerCase(), traduccion);

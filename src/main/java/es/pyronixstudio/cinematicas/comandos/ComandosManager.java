@@ -1,6 +1,6 @@
-package com.pyronixstudios.cinematicas.comandos;
+package es.pyronixstudio.cinematicas.comandos;
 
-import com.pyronixstudios.cinematicas.CinematicasMain;
+import es.pyronixstudio.cinematicas.CinematicasMain;
 
 public class ComandosManager {
 

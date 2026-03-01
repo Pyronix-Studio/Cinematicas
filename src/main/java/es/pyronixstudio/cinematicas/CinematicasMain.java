@@ -1,16 +1,18 @@
-package com.pyronixstudios.cinematicas;
+package es.pyronixstudio.cinematicas;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import es.pyronixstudio.cinematicas.comandos.ComandosManager;
+import es.pyronixstudio.util.ficheros.FicheroBase;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.pyronixstudios.cinematicas.comandos.ComandosManager;
 
 public class CinematicasMain extends JavaPlugin implements Listener {
 
@@ -41,26 +43,21 @@ public class CinematicasMain extends JavaPlugin implements Listener {
 			carpeta.mkdir();
 		
 	}
-	
-	@Override
-	public void onDisable() {
-		
-	}
-	
-	public void copiarFicheros(String ruta) {
+
+    public void copiarFicheros(String ruta) {
 		copiarFicheros(ruta,getDataFolder()+ruta);
 	}
 	
 	public void copiarFicheros(String ruta ,String rutaACopiar) {
-		FicheroManager fichero = new FicheroManager(rutaACopiar);
+		FicheroBase fichero = FicheroBase.of(Path.of(rutaACopiar));
 		if(!fichero.existe())
 			try(Scanner in = new Scanner(CinematicasMain.class.getClassLoader().getResourceAsStream("resources"+ruta))) {
 			
-				ArrayList<String> contenido = new ArrayList<String>();
+				List<String> contenido = new ArrayList<>();
 				while(in.hasNextLine())
 					contenido.add(in.nextLine());
 				
-				fichero.escribir(contenido, false);
+				fichero.escribirLineas(contenido);
 			}catch (Exception e) {
 				e.printStackTrace();
 			}

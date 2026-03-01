@@ -1,0 +1,84 @@
+plugins {
+	id 'java'
+    id 'idea'
+    id 'maven-publish'
+}
+
+repositories {
+    mavenCentral()
+     maven {
+      name = 'papermc'
+      url = 'https://repo.papermc.io/repository/maven-public/'
+  }
+    maven {
+        name = 'Pyronix'
+         url = "https://maven.pyronixstudio.es/"
+    }
+}
+
+dependencies {
+  // Pick only one of these and read the comment in the repositories block.
+    compileOnly "${project.serverSoftware}:${project.serverVersion}"
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "es.pyronixstudio:Util:${project.utilLib}"
+
+    implementation fileTree(dir: 'depend', include: ['*.jar'])
+
+}
+
+// Apply a specific Java toolchain to ease working on different environments.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+jar{
+    from {
+        configurations.runtimeClasspath
+                .filter { it.exists() && !it.path.contains('/libs/') }
+                .collect { zipTree(it) }
+    }
+
+     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+     archiveBaseName.set(project.name)
+     archiveVersion.set(project.version)
+}
+
+processResources {
+    inputs.properties(
+            name: project.name,
+            version: project.version,
+            author: project.author,
+            apiversion: project.apiversion,
+            main: project.main,
+            softdepend: project.softdepend,
+            description: project.description
+    )
+
+    filesMatching('plugin.yml') {
+        expand(inputs.properties)
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+
+publishing {
+    publications {
+
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name = "Pyronix"
+            url = "https://maven.pyronixstudio.es/"
+            credentials {
+                username = project.mavenUser
+                password = project.mavenPassword
+            }
+        }
+    }
+}
